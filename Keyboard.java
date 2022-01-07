@@ -91,6 +91,11 @@ public class Keyboard{
         }
         keyboard.keyRelease(KeyEvent.VK_SHIFT);
     }
+
+    void typeEnter()throws AWTException, InterruptedException{
+        keyboard.keyPress(KeyEvent.VK_ENTER);
+    }
+
     void typeSymbol(char symbol)throws AWTException, InterruptedException{
         //type - ! * / % + - > < = & | ' " {} [] () \ ; .
         if(symbol == '.'){
@@ -193,8 +198,13 @@ public class Keyboard{
         for(int j = 0; j < word.length(); j++){
             Thread.sleep(10);
             char temp = word.charAt(j);
-            if(Character.isLetter(temp))typeLetter(temp);
+            if(temp == '\\' && word.charAt(j + 1) == 'n'){
+                j += 1;
+                typeEnter();
+            }
+            else if(Character.isLetter(temp))typeLetter(temp);
             else if(Character.isDigit(temp))typeNumber(temp);
+
             else typeSymbol(temp);
         }
     }
